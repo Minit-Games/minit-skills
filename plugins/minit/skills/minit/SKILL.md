@@ -114,6 +114,8 @@ before uploading.
 
 | Error code | Cause | Fix |
 |------------|-------|-----|
+| `invalid-zip` | `zipBase64` is not a readable ZIP, has no files, or has an entry that won't decompress | Re-create the ZIP with standard deflate compression |
+| `zip-too-many-entries` | `zipBase64` holds more than 2000 files | Remove unused files |
 | `missing-index-html` | No `index.html` at the bundle root | Zip the build output folder's contents, not the folder |
 | `missing-js` | No `.js`/`.mjs` file and no inline script in `index.html` | Include the built JavaScript |
 | `missing-script-tag` | `index.html` has no `<script>` tag | Reference the game script from `index.html` |
@@ -125,6 +127,11 @@ before uploading.
 | `unbuilt-source-tree` | The ZIP is a source export (`package.json` + build config, no build output) | Run the build and upload the `dist/` contents |
 | `license-not-allowed` | `meta.json` declares a license the platform cannot host (NC variants, GPL, AGPL) | Use a permitted license or `proprietary` |
 
-The platform also rejects an `index.html` over 10 MB and bundles with more than 2000 files, which
-the validator reports as warnings (`index-html-too-large`, `zip-entry-count-too-high`): treat them
-as blocking. Review every other warning too; most flag platform rules from section 3.
+`zip-too-large` means the ZIP inflates past the validator's own 64 MB input limit, not a platform
+rejection: validate the text files as a `files` map instead. `invalid-input` and `empty-input` mean
+the call itself was wrong: pass exactly one of `files` or `zipBase64`, and a non-empty `files` map.
+
+The platform also rejects an `index.html` over 10 MB and bundles with more than 2000 files. The
+validator reports these as warnings (`index-html-too-large`, and `zip-entry-count-too-high` for a
+`files` map): treat them as blocking. Review every other warning too; most flag platform rules from
+section 3.
