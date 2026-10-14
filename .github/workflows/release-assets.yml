@@ -22,7 +22,7 @@ jobs:
         if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ github.ref_name }}
         run: >-
           gh release upload "$TAG"
           "$RUNNER_TEMP/release-assets/minit-skill.zip"
