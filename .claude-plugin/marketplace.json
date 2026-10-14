@@ -1,0 +1,14 @@
+{
+  "name": "minit",
+  "description": "Minit Games plugins for building and publishing Minit games",
+  "owner": {
+    "name": "Minit Games"
+  },
+  "plugins": [
+    {
+      "name": "minit",
+      "source": "./plugins/minit",
+      "description": "Build, validate, upload and publish Minit games with the Minit MCP server"
+    }
+  ]
+}
