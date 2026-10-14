@@ -1,0 +1,40 @@
+name: Release assets
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build assets
+        run: bash scripts/build-release-assets.sh "$RUNNER_TEMP/release-assets"
+
+      - name: Upload release assets
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: >-
+          gh release upload "$TAG"
+          "$RUNNER_TEMP/release-assets/minit-skill.zip"
+          "$RUNNER_TEMP/release-assets/AGENTS.md"
+          --repo "$GITHUB_REPOSITORY"
+          --clobber
+
+      - name: Upload dry-run artifact
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-assets
+          path: |
+            ${{ runner.temp }}/release-assets/minit-skill.zip
+            ${{ runner.temp }}/release-assets/AGENTS.md
