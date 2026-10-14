@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "minit": {
+      "type": "http",
+      "url": "https://mcp.minit.games/mcp"
+    }
+  }
+}

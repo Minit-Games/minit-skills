@@ -1,0 +1,9 @@
+{
+  "name": "minit",
+  "description": "Build, port, validate, upload and publish Minit games: the Minit agent skill plus the hosted Minit MCP server",
+  "author": {
+    "name": "Minit Games"
+  },
+  "repository": "https://github.com/Minit-Games/minit-skills",
+  "license": "MIT"
+}
