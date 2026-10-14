@@ -29,7 +29,7 @@ in this file: scaffold or port the game, apply sections 3 and 4, and validate on
 |------|------------|----------|
 | Requirements | Load the current rules and SDK API before writing code | `minit_get_requirements`, `minit_get_sdk_reference` |
 | Scaffold | New game: generate a starter (`vanilla`, `phaser`, `pixi`, `three`) and write the returned files to disk | `minit_scaffold_game` |
-| Build | Implement the game; run the project's build (e.g. `npm run build`) so the ZIP holds built output, not source | — |
+| Build | Implement the game; add a root `meta.json` with `config` (section 3); run the project's build (e.g. `npm run build`) so the ZIP holds built output, not source | — |
 | SDK lifecycle | Wire `loadingDone()`, `reportResult()`, viewability pause, userData (section 3) | — |
 | Validate | Validate the built bundle; fix every error before uploading | `minit_validate_build` |
 | Upload (new Game) | First upload creates the Game; `meta.json` sets its founding title, description and result sorting | `minit_create_game` |
@@ -62,8 +62,9 @@ Workflow rules:
   never scale x and y separately.
 - The canvas or game container fills the viewport; `overflow: hidden` on `body`; pin the viewport
   meta tag.
-- Touch or pointer input only (`pointerdown`, `pointermove`, `pointerup`); no keyboard, no hover.
-  Set `touch-action: none` on the canvas.
+- Touch or pointer input first (`pointerdown`, `pointermove`, `pointerup`): every action must work
+  by touch. Keyboard is fine as an extra input (e.g. for desktop play). No hover: it never fires on
+  touch screens. Set `touch-action: none` on the canvas.
 - Cap rendering at 60 FPS and use delta time.
 
 ### SDK lifecycle
@@ -78,6 +79,25 @@ Workflow rules:
   `onViewableChange(fn)`.
 - Unity, Godot and Defold games use their engine facade (Unity `Minit.cs`, Godot `addons/minit`,
   Defold `minit.minit`) instead of the JS SDK.
+
+### Config values
+
+- Declare the values a Post can tune (e.g. `level`, `seed`, `difficulty`, `background`) in
+  `meta.json` `config`, and read them with `getConfigValue(key, fallback)`. Values arrive as
+  strings: coerce them (`Number(...)`, `=== "true"`).
+- Each Post sets its own values with `minit_create_post` `config` (`{ key, value }` pairs); when
+  supplied it must include every Game config key. Omit it to use the declared defaults.
+- Declaring config also unlocks Superposting: other creators post variations of the Game.
+
+```json
+{
+  "config": [
+    { "key": "difficulty", "valueType": "number", "value": 2, "min": 1, "max": 3 },
+    { "key": "seed", "valueType": "number", "value": 42 },
+    { "key": "background", "valueType": "color", "value": "#1a1a2e" }
+  ]
+}
+```
 
 ### Storage and network
 
@@ -103,8 +123,8 @@ Workflow rules:
 - Every asset inside the ZIP; script references point at built `.js`/`.mjs` files that exist.
 - Limits: ZIP at most 50 MB compressed; each file at most 50 MB uncompressed; all files together
   at most 300 MB uncompressed; `index.html` at most 10 MB; at most 2000 files. Aim for under 5 MB.
-- Optional `meta.json` at the root: `title`, `description`, `controls`, `logic`, `resultSorting`,
-  `config`, `license` (SPDX id or `proprietary`), `credits`, `sourceUrl`. Attribution licenses need
+- Recommended `meta.json` at the root (every field is optional): `title`, `description`,
+  `controls`, `logic`, `resultSorting`, `config` (see Config values), `license` (SPDX id or `proprietary`), `credits`, `sourceUrl`. Attribution licenses need
   a `THIRD-PARTY-NOTICES.txt` at the root.
 
 ## 4. Hard-fail list

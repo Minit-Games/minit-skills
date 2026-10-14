@@ -4,7 +4,7 @@ Agent skill and Claude Code plugin for building games on [Minit Games](https://m
 
 The `minit` skill teaches an AI coding agent how to build, port, validate, upload and publish a
 Minit game: the creator workflow, the platform rules (portrait 960 × 1480 design surface,
-touch-only input, Minit SDK lifecycle, no browser storage or external requests) and the bundle
+touch-first input, Minit SDK lifecycle, no browser storage or external requests) and the bundle
 errors that fail validation. It works together with the hosted Minit MCP server
 (`https://mcp.minit.games/mcp`), which validates bundles, uploads them, and creates and publishes
 Posts. The MCP server needs a login with your Minit Games account.
