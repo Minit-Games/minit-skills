@@ -49,8 +49,11 @@ Workflow rules:
   the tool response's steps; do not hand the curl command to the user.
 - A Post created without `revision` uses the Game's current revision, not the new draft.
 - Publishing requires the `user` role; a `guest` account gets a 403.
-- Change Game metadata after the first upload with `minit_update_game` (re-uploads ignore the
-  founding `meta.json` fields).
+- Re-uploads ignore `meta.json` `title` and `resultSorting`. A re-upload that creates a new draft
+  revision (the latest revision is published or locked) applies the other fields `meta.json`
+  declares; one that replaces the unlocked draft ignores them. `config` and `schemaVersion` apply
+  on every upload. An omitted field keeps its current value.
+- Change Game metadata after the first upload with `minit_update_game`.
 
 ## 3. Core platform rules
 
