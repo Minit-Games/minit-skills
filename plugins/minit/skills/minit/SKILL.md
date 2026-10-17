@@ -50,7 +50,7 @@ Workflow rules:
 - A Post created without `revision` uses the Game's current revision, not the new draft.
 - Publishing requires the `user` role; a `guest` account gets a 403.
 - Re-uploads ignore `meta.json` `title` and `resultSorting`. A re-upload that creates a new draft
-  revision (the latest revision is published or locked) applies the other fields `meta.json`
+  revision (the latest revision is locked or has non-draft Posts) applies the other fields `meta.json`
   declares; one that replaces the unlocked draft ignores them. `config` and `schemaVersion` apply
   on every upload. An omitted field keeps its current value.
 - Change Game metadata after the first upload with `minit_update_game`.
