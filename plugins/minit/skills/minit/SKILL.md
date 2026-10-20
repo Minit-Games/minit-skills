@@ -90,7 +90,7 @@ Workflow rules:
   strings: coerce them (`Number(...)`, `=== "true"`).
 - Each Post sets its own values with `minit_create_post` `config` (`{ key, value }` pairs); when
   supplied it must include every Game config key. Omit it to use the declared defaults.
-- Declaring config also unlocks Superposting: other creators post variations of the Game.
+- Declaring config also unlocks Mods: other creators post variations of the Game.
 
 ```json
 {
