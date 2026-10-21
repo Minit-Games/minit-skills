@@ -1,6 +1,6 @@
 {
   "name": "minit-skills",
-  "version": "0.0.0",
+  "version": "1.17.0",
   "private": true,
   "description": "Minit Games agent skill and Claude Code plugin",
   "license": "MIT",
