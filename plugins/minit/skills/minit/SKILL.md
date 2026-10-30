@@ -115,8 +115,8 @@ Workflow rules:
 ### Gameplay
 
 - Instantly playable: no splash screens, progress bars or runtime asset downloads.
-- One self-contained session with a clear ending; no progression systems, monetisation, accounts,
-  logins, leaderboards or social features.
+- One self-contained session with a clear ending; no monetisation, accounts, logins or social
+  features. Progression is allowed only through SDK userData.
 - First-play tutorials only through the SDK overlay, gated by `shouldShowTutorial()`.
 
 ### Bundle
