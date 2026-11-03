@@ -80,6 +80,9 @@ Workflow rules:
   group games. Never pass `null` or `undefined`.
 - Pause timers, audio and gameplay when the game is not viewable: `isViewable()` /
   `onViewableChange(fn)`.
+- Use `getMotionQuality()` and `getDeviceTier()` to scale particle counts and effects, and
+  `prefersReducedMotion()` to skip screen shake; see
+  [Device-adaptive effects](https://minit.studio/docs/device-adaptive-effects).
 - Unity, Godot and Defold games use their engine facade (Unity `Minit.cs`, Godot `addons/minit`,
   Defold `minit.minit`) instead of the JS SDK.
 
