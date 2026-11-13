@@ -34,7 +34,7 @@ in this file: scaffold or port the game, apply sections 3 and 4, and validate on
 | Validate | Validate the built bundle; fix every error before uploading | `minit_validate_build` |
 | Upload (new Game) | First upload creates the Game; `meta.json` sets its founding title, description and result sorting | `minit_create_game` |
 | Upload (new revision) | Upload a new build to an existing Game | `minit_upload_game_bundle` |
-| Wait for processing | Poll until `completed` or `failed`; read the target `draftRevisionId` | `minit_get_upload_status`, `minit_get_game` |
+| Wait for processing | Poll until `completed` or `failed`; after `completed`, call `minit_get_game` once and read the target `currentRevisionId` | `minit_get_upload_status`, `minit_get_game` |
 | Create Post | Create a draft Post pinned to the uploaded revision (pass `revision` explicitly) | `minit_create_post` |
 | Test | Get the phone preview link (expires after 15 min) and have the user play it | `minit_get_post_preview_link` |
 | Publish | Publish now, or schedule up to 4 weeks ahead, or submit to an event | `minit_publish`, `minit_schedule_post`, `minit_list_post_targets` |
@@ -47,7 +47,9 @@ Workflow rules:
   for larger bundles pass the text files as a `files` map.
 - Upload tools return a presigned S3 URL and a curl template. Run the upload yourself and follow
   the tool response's steps; do not hand the curl command to the user.
-- A Post created without `revision` uses the Game's current revision, not the new draft.
+- A mint carries existing draft Posts to the new revision; reuse one before creating a new Post.
+  Scheduled and published Posts keep the old build.
+- A Post created without `revision` uses the last published revision, not `currentRevisionId`; always pass the target revision.
 - Publishing requires the `user` role; a `guest` account gets a 403.
 - Re-uploads ignore `meta.json` `title` and `resultSorting`. A re-upload that creates a new draft
   revision (the latest revision is locked or has non-draft Posts) applies the other fields `meta.json`
