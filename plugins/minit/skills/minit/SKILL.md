@@ -49,7 +49,7 @@ Workflow rules:
   the tool response's steps; do not hand the curl command to the user.
 - A mint carries existing draft Posts to the new revision; reuse one before creating a new Post.
   Scheduled and published Posts keep the old build.
-- A Post created without `revision` uses the Game's current revision, not the new draft.
+- A Post created without `revision` uses the last published revision, not `currentRevisionId`; always pass the target revision.
 - Publishing requires the `user` role; a `guest` account gets a 403.
 - Re-uploads ignore `meta.json` `title` and `resultSorting`. A re-upload that creates a new draft
   revision (the latest revision is locked or has non-draft Posts) applies the other fields `meta.json`
